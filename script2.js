@@ -1,35 +1,36 @@
+const characterComponent = (name, height, weight) => `
+    <div class="character">
+        <h2>Character:</h2>
+        <p class="name">${name}</p>
+        <p class="height">${height} cm</p>
+        <p class="weight">${weight} kg</p>
+    </div>
+`
+
+const charactersComponent = (charactersData) => `
+    <div class="characters">
+        ${charactersData
+            .map(characterData => characterComponent(characterData.name, characterData.height, characterData.weight))
+            .join(" ")
+        }
+    </div>
+`
+
 async function fetchData() {
     const fetchResult = await fetch("https://swapi.dev/api/people/")
     const data = await fetchResult.json()
-    const characters = data.results //characters = array [10]
-    //console.log(characters)
+    const characters = data.results
     
-const rootElement = document.querySelector("#root")
-let charactersHtml = ""
+    const rootElement = document.querySelector("#root")
 
-/* for (let i = 0; i < characters.length; i++) {
-    console.log(characters[i])
+    rootElement.insertAdjacentHTML("beforeend", charactersComponent(characters))
+    rootElement.insertAdjacentHTML("beforeend", `<button class="fetch">load more...</button>`)
 
-    charactersHtml += `
-        <div class="character">
-            <p class="name">${characters[i].name} </p>
-            <p class="height">${characters[i].height} </p>
-            <p class="weight">${characters[i].mass} </p>
-        </div>
-    `
-} */
-
-characters.forEach(character => charactersHtml += `
-        <div class="character>
-            <p class="name"> ${character.name}</p>
-            <p class="height"> ${character.height} cm</p>
-            <p class="weight"> ${character.weight} kg</p>
-        </div>
-    `
-)
-
-rootElement.insertAdjacentHTML("beforeend", charactersHtml)
-
+    const fetchButtonElement = document.querySelector("button.fetch")
+    fetchButtonElement.addEventListener("click", () => {
+        console.log("fetch next page")
+        console.log(data.next)
+    })
 }
 
 fetchData()
