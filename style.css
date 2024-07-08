@@ -7,10 +7,10 @@
 
 div.characters {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
-
-    width: 600px;
+    justify-content: center;
 }
 
 div.character {
@@ -20,6 +20,8 @@ div.character {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    width: 300px;
 }
 
 button {
