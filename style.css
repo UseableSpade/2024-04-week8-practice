@@ -31,10 +31,11 @@ div.character {
     justify-content: center;
     flex-direction: column;
     gap: 20px;
+
+    align-self: flex-start;
     
     width: 300px;
 }
-
 
 button.more {
     background-color: blue;
@@ -45,13 +46,18 @@ div.more-data {
     opacity: 0; */
     height: 0px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    transition: all 0.3s ease;
 }
 
 button.more.clicked ~ div.more-data {
-    height: 40px;
+    height: 60px;
 }
 
-button {
+button.fetch {
     margin: 40px auto;
     display: block;
     padding: 10px;
@@ -66,7 +72,12 @@ button {
     transition: all 0.3s ease-in-out;
 }
 
-button:hover {
+div.character button {
+    width: 120px;
+    margin: 5px auto 0;
+}
+
+button.fetch:hover {
     background-color: black;
     color: white;
 }

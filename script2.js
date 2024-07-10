@@ -45,7 +45,11 @@ const makeDomFromData = (data, rootElement) => {
     
     rootElement.insertAdjacentHTML("beforeend", charactersHtml)
     const moreButtonElements = document.querySelectorAll("button.more")
-    moreButtonElements.forEach(moreButtonElement => moreButtonElement.addEventListener("click", () => moreButtonElement.classList.toggle("clicked")))
+    moreButtonElements.forEach(moreButtonElement => moreButtonElement.addEventListener("click", () => {
+        moreButtonElement.classList.toggle("clicked")
+        moreButtonElement.innerText === "show more" ? moreButtonElement.innerHTML = "show less" : moreButtonElement.innerText = "show more"
+    }))
+
 
 
     rootElement.insertAdjacentHTML("afterbegin", filterHtml)
