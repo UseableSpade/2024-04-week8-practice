@@ -6,19 +6,32 @@ const fetchData = async (url) => {
     return data
 }
 
-const characterComponent = (name, height, mass, index) => `
+const characterComponent = (name, height, mass, index, hairColor, eyeColor) => `
     <div class="character">
         <h2>Character ${index + 1}:</h2>
         <p class="name">${name}</p>
         <p class="height">${height} cm</p>
         <p class="weight">${mass} kg</p>
+        
+        <button class="more">Show more</button>
+        <div class="more-data">
+            <p class="hairColor">Hair color: ${hairColor}</p>
+            <p class="eyeColor">Eye color: ${eyeColor}</p>
+        </div>
     </div>
 `
 
 const charactersComponent = (charactersData) => `
     <div class="characters">
         ${charactersData
-            .map((charactersData, index) => characterComponent(charactersData.name, charactersData.height, charactersData.mass, index))
+            .map((characterData, index) => characterComponent(
+                characterData.name, 
+                characterData.height, 
+                characterData.mass, 
+                index,
+                characterData.hair_color,
+                characterData.eye_color
+            ))
             .join(" ")
         }
     </div>
@@ -29,6 +42,11 @@ const makeDomFromData = (data, rootElement) => {
     let charactersHtml = charactersComponent(charactersData)
     const buttonHtml = `<button class="fetch">Load more...</button>`
     const filterHtml = `<input type="text" class="filter-input" placeholder="Filter characters...">`
+    
+    rootElement.insertAdjacentHTML("beforeend", charactersHtml)
+    const moreButtonElements = document.querySelectorAll("button.more")
+    moreButtonElements.forEach(moreButtonElement => moreButtonElement.addEventListener("click", () => moreButtonElement.classList.toggle("clicked")))
+
 
     rootElement.insertAdjacentHTML("afterbegin", filterHtml)
         const filterElement = document.querySelector(".filter-input")
@@ -64,6 +82,7 @@ const makeDomFromData = (data, rootElement) => {
 
 const init = async () => {
     const data = await fetchData("https://swapi.dev/api/people/")
+
     const rootElement = document.querySelector("#root")
     makeDomFromData(data, rootElement)
 }
