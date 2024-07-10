@@ -1,5 +1,11 @@
 let charactersData = []
 
+const fetchData = async (url) => {
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
+}
+
 const characterComponent = (name, height, mass, index) => `
     <div class="character">
         <h2>Character ${index + 1}:</h2>
@@ -12,22 +18,33 @@ const characterComponent = (name, height, mass, index) => `
 const charactersComponent = (charactersData) => `
     <div class="characters">
         ${charactersData
-            .map(characterData, index => characterComponent(characterData.name, characterData.height, characterData.mass))
+            .map((charactersData, index) => characterComponent(charactersData.name, charactersData.height, charactersData.mass, index))
             .join(" ")
         }
     </div>
 `
 
-const fetchData = async (url) => {
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-}
-
 const makeDomFromData = (data, rootElement) => {
     charactersData.push(...data.results)
     let charactersHtml = charactersComponent(charactersData)
-    const buttonHtml = `<button class="fetch">load more...</button>`
+    const buttonHtml = `<button class="fetch">Load more...</button>`
+    const filterHtml = `<input type="text" class="filter-input" placeholder="Filter characters...">`
+
+    rootElement.insertAdjacentHTML("afterbegin", filterHtml)
+        const filterElement = document.querySelector(".filter-input")
+        filterElement.addEventListener("keyup", function() {
+            const filterValue = this.value.toLowerCase()
+            const characterItems = document.querySelectorAll(".character")
+
+            characterItems.forEach(function(item) {
+                const text = item.textContent.toLowerCase()
+                if (text.includes(filterValue)) {
+                    item.style.display = ""
+                } else {
+                    item.style.display = "none"
+                }
+            })
+        })
 
     rootElement.insertAdjacentHTML("beforeend", charactersHtml)
         if (data.next) {
