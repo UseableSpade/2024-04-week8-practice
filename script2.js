@@ -43,6 +43,12 @@ const makeDomFromData = (data, rootElement) => {
     const buttonHtml = `<button class="fetch">Load more...</button>`
     const filterHtml = `<input type="text" class="filter-input" placeholder="Filter characters...">`
     
+    /* ADDING SHOW MORE BUTTON
+        - adds to all HTML elements with class more
+        - loop through with forEach to add eventListener
+        - on click adds/removes "clicked" attribute to class using toggle method
+        - changes innerText to show more / show less */
+
     rootElement.insertAdjacentHTML("beforeend", charactersHtml)
     const moreButtonElements = document.querySelectorAll("button.more")
     moreButtonElements.forEach(moreButtonElement => moreButtonElement.addEventListener("click", () => {
@@ -50,7 +56,12 @@ const makeDomFromData = (data, rootElement) => {
         moreButtonElement.innerText === "show more" ? moreButtonElement.innerHTML = "show less" : moreButtonElement.innerText = "show more"
     }))
 
-
+    /* ADDING FILTER TO TOP OF THE PAGE
+        - select filter-input element and adds keyup event listener
+        - defines filter value in lowercase
+        - defines character items by selecting all content
+        - loops through all content with forEach and compares it with filter value string to display matches
+     */
 
     rootElement.insertAdjacentHTML("afterbegin", filterHtml)
         const filterElement = document.querySelector(".filter-input")
